@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}                     
+{{block.super}}
+    <div class="content">
+        <div class="container" style="padding: 10px; text-align: center;">
+            {% if posts %}
+                <p>Found {{ posts|length }} of search {{message}}</p> 
+                <hr>               
+            {% else %}
+                <p> Found 0 posts of search {{message}}</p>
+                <hr>
+            {% endif %}
+        </div>        
+        <ul class="posts" style="max-height: 90vh; overflow-y: scroll;">                    
+            {% for post in posts %}
+                <li style=" display: inline-block; padding: 10px 5px;"> 
+                    <div class="card" data-toggle="modal" data-target="#{{post.name}}" style="height: 370px; width: 250px; background: linear-gradient(rgba(17, 17, 17,.5), transparent, rgba(17, 17, 17,.7)),url( '{{post.image_url.url}}'); background-size: cover;">                                                                                                                                                                
+                        <h5 style="display: inline-block; position: absolute;color: white; top: 10px; left:15px;">{{post.title}}</h5>
+                        <p style="display: inline-block; position: absolute; color: white; top: 30px; left:15px;">{{post.location}}</p>
+                        <p style="display: inline-block; position: absolute; color: white; bottom: 3px; right: 10px;">#{{post.category}}</p>
+                    </div>                                                        
+                    <!-- Modal -->
+                    <div class="modal fade" id="{{post.name}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered"  role="document">
+                            <div class="modal-content"> 
+                                <div class="modal-body-fluid">                                            
+                                                                                
+                                    <div class="row">                                                
+                                        <div class="col-md-6" style="overflow: hidden;">                                                                                                    
+                                            <img src="{{post.image_url.url}}" alt="" style="height: 750px;">                                                                                
+                                        </div>       
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 5px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>                                         
+                                        <div class="col-md-5" style="padding-top: 15%;">                                                                                  
+                                            <h2 style="padding-right: 10px;">{{post.title}}    <sup><span style="font-size: 19px; background-color: #E84C37;">#{{post.category}}</span></sup></h2>                                                    
+                                            <h5>{{post.location}}</h3>
+                                            <hr>
+                                            <br>
+                                            <p style="text-align: center;">{{post.caption}}</p>
+                                            <br>
+                                            <hr>
+                                            <p>image link:</p>                                
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="imageUrl" value="http://127.0.0.1:8000/media/{{post.image_url}}" aria-describedby="basic-addon1" readonly>
+                                                <div class="input-group-prepend">
+                                                    <button class="input-group-text" id="basic-addon1" onclick="clipFunction()">Copy</button>
+                                                </div>
+                                            </div>                                                                  
+                                            <p>To open the image click <a href = "http://127.0.0.1:8000/media/{{post.image_url}}">here</a></p>
+                                            
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>  
+                                </div>                                    
+                            </div>
+                        </div>
+                    </div>                    
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}   
